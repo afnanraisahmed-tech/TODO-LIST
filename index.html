@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark-mode">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Docket - an advanced to-do list with priorities, categories, reminders and export.">
+    <title>Docket | Advanced To-Do List</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <h1>Docket</h1>
+            <p>What needs doing, in order.</p>
+        </div>
+        <button type="button" id="themeToggle" class="btn btn-ghost" aria-pressed="true">Switch to Light Mode</button>
+    </header>
+
+    <main class="layout">
+
+        <!-- LEFT COLUMN: stats, form, tools -->
+        <aside class="side">
+
+            <section class="panel stats" aria-label="Task statistics">
+                <div class="stat">
+                    <strong id="totalCount">0</strong>
+                    <span>Total</span>
+                </div>
+                <div class="stat stat-pending">
+                    <strong id="pendingCount">0</strong>
+                    <span>Pending</span>
+                </div>
+                <div class="stat stat-done">
+                    <strong id="completedCount">0</strong>
+                    <span>Completed</span>
+                </div>
+            </section>
+
+            <section class="panel" aria-labelledby="formHeading">
+                <h2 id="formHeading">Task details</h2>
+
+                <form id="todoForm" class="form" novalidate>
+                    <div class="field">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" maxlength="72" placeholder="What needs to get done?" autocomplete="off">
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="date">Due date</label>
+                            <input type="date" id="date" name="date">
+                        </div>
+
+                        <div class="field">
+                            <label for="priority">Priority</label>
+                            <select id="priority" name="priority">
+                                <option value="high">High</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="category">Category</label>
+                        <input type="text" id="category" name="category" maxlength="40" list="categoryList" placeholder="Other" autocomplete="off">
+                        <datalist id="categoryList">
+                            <option value="Work"></option>
+                            <option value="Study"></option>
+                            <option value="Personal"></option>
+                            <option value="Health"></option>
+                            <option value="Shopping"></option>
+                            <option value="Other"></option>
+                        </datalist>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Task</button>
+                        <button type="button" id="cancelEdit" class="btn btn-ghost" hidden>Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="panel" aria-labelledby="toolsHeading">
+                <h2 id="toolsHeading">Reminders &amp; backup</h2>
+                <p class="hint">Reminders arrive at 9:00 AM on the due date while this page stays open.</p>
+
+                <div class="tool-buttons">
+                    <button type="button" id="enableReminders" class="btn btn-ghost">Enable reminders</button>
+                    <button type="button" id="exportJSON" class="btn btn-ghost">Export JSON</button>
+                    <button type="button" id="exportCSV" class="btn btn-ghost">Export CSV</button>
+                </div>
+            </section>
+
+        </aside>
+
+        <!-- RIGHT COLUMN: search, filters, task list -->
+        <section class="board" aria-labelledby="listHeading">
+            <h2 id="listHeading" class="visually-hidden">Your tasks</h2>
+
+            <div class="toolbar">
+                <input type="search" id="searchInput" placeholder="Search by title, category or priority" aria-label="Search tasks" autocomplete="off">
+
+                <div class="toolbar-row">
+                    <div class="filters" role="group" aria-label="Filter tasks">
+                        <button type="button" class="filter-btn active" data-filter="all">All</button>
+                        <button type="button" class="filter-btn" data-filter="pending">Pending</button>
+                        <button type="button" class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+
+                    <button type="button" id="clearCompleted" class="btn btn-danger-ghost">Clear completed</button>
+                </div>
+            </div>
+
+            <div id="todoLists" class="todo-list"></div>
+        </section>
+
+    </main>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
