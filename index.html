@@ -1,134 +1,148 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" class="dark-mode">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TODO-LIST - an advanced to-do list with priorities, categories, reminders and export.">
-    <title>TODO-LIST | Advanced To-Do List</title>
-
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235a67ff'/%3E%3Cstop offset='1' stop-color='%238e4dff'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='150%25'%3E%3CfeDropShadow dx='0' dy='3' stdDeviation='2.2' flood-color='%23140a50' flood-opacity='0.45'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='url(%23g)'/%3E%3Crect x='13' y='11' width='38' height='42' rx='7' fill='%23fff' filter='url(%23s)'/%3E%3Ccircle cx='24' cy='25' r='6' fill='%2322c58b'/%3E%3Cpath d='M21.2 25.4l2.3 2.3 4.1-5' fill='none' stroke='%23fff' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='34' y='23' width='11' height='4' rx='2' fill='%235a67ff'/%3E%3Ccircle cx='24' cy='40' r='5' fill='none' stroke='%23c4c9e6' stroke-width='2'/%3E%3Crect x='34' y='38' width='11' height='4' rx='2' fill='%23d6daf0'/%3E%3C/svg%3E" type="image/svg+xml">
-    <link rel="icon" href="favicon.ico" sizes="any">
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="TODO-LIST — a focused, powerful workspace for planning your day.">
+  <title>TODO-LIST — Make today count</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    try { document.documentElement.dataset.theme = localStorage.getItem("beastTodoTheme") || localStorage.getItem("taskflow_theme_v1") || localStorage.getItem("advancedTodoTheme") || "dark"; } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
 </head>
 <body>
-
+  <div class="app-shell">
     <header class="topbar">
-        <div class="brand">
-            <h1>TODO-LIST</h1>
-            <p>What needs doing, in order.</p>
-        </div>
-        <button type="button" id="themeToggle" class="btn btn-ghost" aria-pressed="true">Switch to Light Mode</button>
+      <a class="brand" href="#" aria-label="TODO-LIST home">
+        <img src="favicon-192.png" alt="" class="brand-logo">
+        <span class="brand-name">TODO<span>-LIST</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="today-label" id="todayLabel"></span>
+        <button class="icon-button" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">☼</button>
+      </div>
     </header>
 
-    <main class="layout">
+    <main class="main-content">
+      <section class="welcome-row">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+          <h1>Make today <span>count.</span></h1>
+          <p class="subtitle">Plan smarter, stay focused, and turn small steps into big wins.</p>
+        </div>
+        <div class="date-card">
+          <span class="date-icon">✦</span>
+          <div><strong id="dateDay">Today</strong><small id="dateFull"></small></div>
+        </div>
+      </section>
 
-        <!-- LEFT COLUMN: stats, form, tools -->
-        <aside class="side">
+      <section class="stats-grid" aria-label="Task overview">
+        <article class="stat-card">
+          <div class="stat-top"><span>Total tasks</span><span class="stat-symbol">▤</span></div>
+          <strong id="totalCount">0</strong><small>On your list</small>
+        </article>
+        <article class="stat-card stat-done">
+          <div class="stat-top"><span>Completed</span><span class="stat-symbol">✓</span></div>
+          <strong id="completedCount">0</strong><small>Things you've finished</small>
+        </article>
+        <article class="stat-card stat-pending">
+          <div class="stat-top"><span>Pending</span><span class="stat-symbol">◷</span></div>
+          <strong id="pendingCount">0</strong><small>Still to take care of</small>
+        </article>
+        <article class="stat-card stat-progress">
+          <div class="stat-top"><span>Progress</span><span class="stat-symbol">↗</span></div>
+          <strong id="progressPercent">0%</strong>
+          <div class="progress-track"><span id="progressBar"></span></div>
+        </article>
+      </section>
 
-            <section class="panel stats" aria-label="Task statistics">
-                <div class="stat">
-                    <strong id="totalCount">0</strong>
-                    <span>Total</span>
-                </div>
-                <div class="stat stat-pending">
-                    <strong id="pendingCount">0</strong>
-                    <span>Pending</span>
-                </div>
-                <div class="stat stat-done">
-                    <strong id="completedCount">0</strong>
-                    <span>Completed</span>
-                </div>
-            </section>
+      <section class="workspace">
+        <div class="section-heading">
+          <div><p class="eyebrow">STAY ON TRACK</p><h2>Your tasks</h2></div>
+          <span class="task-date" id="taskDate"></span>
+        </div>
 
-            <section class="panel" aria-labelledby="formHeading">
-                <h2 id="formHeading">Task details</h2>
+        <form class="task-form" id="taskForm">
+          <span class="input-plus" aria-hidden="true">＋</span>
+          <label class="sr-only" for="taskInput">New task</label>
+          <input id="taskInput" type="text" maxlength="120" placeholder="What needs to get done?" autocomplete="off" required>
+          <label class="sr-only" for="priorityInput">Priority</label>
+          <select id="priorityInput" aria-label="Task priority">
+            <option value="medium">Medium</option><option value="high">High</option><option value="low">Low</option>
+          </select>
+          <label class="sr-only" for="categoryInput">Category</label>
+          <select id="categoryInput" aria-label="Task category">
+            <option>Personal</option><option>Work</option><option>Study</option><option>Health</option><option>Shopping</option><option>Other</option>
+          </select>
+          <label class="sr-only" for="dueDateInput">Due date</label>
+          <input id="dueDateInput" type="date" aria-label="Due date">
+          <button class="add-button" type="submit"><span>＋</span> Add task</button>
+        </form>
 
-                <form id="todoForm" class="form" novalidate>
-                    <div class="field">
-                        <label for="title">Title</label>
-                        <input type="text" id="title" name="title" maxlength="72" placeholder="What needs to get done?" autocomplete="off">
-                    </div>
+        <div class="toolbar">
+          <div class="filters" role="group" aria-label="Filter tasks">
+            <button class="filter-button active" data-filter="all" type="button">All <span id="allFilterCount">0</span></button>
+            <button class="filter-button" data-filter="pending" type="button">Pending <span id="pendingFilterCount">0</span></button>
+            <button class="filter-button" data-filter="completed" type="button">Completed <span id="completedFilterCount">0</span></button>
+          </div>
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+            <input id="searchInput" type="search" placeholder="Search title, category, priority..." aria-label="Search tasks">
+          </label>
+        </div>
 
-                    <div class="field-row">
-                        <div class="field">
-                            <label for="date">Due date</label>
-                            <input type="date" id="date" name="date">
-                        </div>
+        <div class="extra-toolbar">
+          <label class="category-filter-label">Category
+            <select id="categoryFilter" aria-label="Filter by category">
+              <option value="all">All categories</option>
+              <option>Personal</option><option>Work</option><option>Study</option><option>Health</option><option>Shopping</option><option>Other</option>
+            </select>
+          </label>
+          <div class="utility-actions">
+            <button class="utility-button" id="enableReminders" type="button">♧ Reminders</button>
+            <button class="utility-button" id="exportJSON" type="button">↓ JSON</button>
+            <button class="utility-button" id="exportCSV" type="button">↓ CSV</button>
+          </div>
+        </div>
 
-                        <div class="field">
-                            <label for="priority">Priority</label>
-                            <select id="priority" name="priority">
-                                <option value="high">High</option>
-                                <option value="medium" selected>Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label for="category">Category</label>
-                        <input type="text" id="category" name="category" maxlength="40" list="categoryList" placeholder="Other" autocomplete="off">
-                        <datalist id="categoryList">
-                            <option value="Work"></option>
-                            <option value="Study"></option>
-                            <option value="Personal"></option>
-                            <option value="Health"></option>
-                            <option value="Shopping"></option>
-                            <option value="Other"></option>
-                        </datalist>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Add Task</button>
-                        <button type="button" id="cancelEdit" class="btn btn-ghost" hidden>Cancel</button>
-                    </div>
-                </form>
-            </section>
-
-            <section class="panel" aria-labelledby="toolsHeading">
-                <h2 id="toolsHeading">Reminders &amp; backup</h2>
-                <p class="hint">Reminders arrive at 9:00 AM on the due date while this page stays open.</p>
-
-                <div class="tool-buttons">
-                    <button type="button" id="enableReminders" class="btn btn-ghost">Enable reminders</button>
-                    <button type="button" id="exportJSON" class="btn btn-ghost">Export JSON</button>
-                    <button type="button" id="exportCSV" class="btn btn-ghost">Export CSV</button>
-                </div>
-            </section>
-
-        </aside>
-
-        <!-- RIGHT COLUMN: search, filters, task list -->
-        <section class="board" aria-labelledby="listHeading">
-            <h2 id="listHeading" class="visually-hidden">Your tasks</h2>
-
-            <div class="toolbar">
-                <input type="search" id="searchInput" placeholder="Search by title, category or priority" aria-label="Search tasks" autocomplete="off">
-
-                <div class="toolbar-row">
-                    <div class="filters" role="group" aria-label="Filter tasks">
-                        <button type="button" class="filter-btn active" data-filter="all">All</button>
-                        <button type="button" class="filter-btn" data-filter="pending">Pending</button>
-                        <button type="button" class="filter-btn" data-filter="completed">Completed</button>
-                    </div>
-
-                    <button type="button" id="clearCompleted" class="btn btn-danger-ghost">Clear completed</button>
-                </div>
-            </div>
-
-            <div id="todoLists" class="todo-list"></div>
-        </section>
-
+        <div class="task-list" id="taskList" aria-live="polite"></div>
+        <div class="list-footer">
+          <span id="listSummary">Showing 0 tasks</span>
+          <div class="footer-actions">
+            <button class="clear-button" id="clearCompleted" type="button" disabled>Clear completed</button>
+            <button class="clear-button danger-text" id="clearAll" type="button" disabled>Clear all</button>
+          </div>
+        </div>
+      </section>
+      <footer>Made for focused days <span>✦</span> Your tasks stay on this device.</footer>
     </main>
+  </div>
 
-    <script src="script.js" defer></script>
+  <dialog class="edit-dialog" id="editDialog">
+    <form id="editForm">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">MAKE A CHANGE</p><h2>Edit task</h2></div>
+        <button class="icon-button close-dialog" type="button" aria-label="Close">×</button>
+      </div>
+      <label for="editTaskInput">Task name</label>
+      <input id="editTaskInput" type="text" maxlength="120" required>
+      <div class="dialog-fields">
+        <div><label for="editPriority">Priority</label><select id="editPriority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div>
+        <div><label for="editCategory">Category</label><select id="editCategory"><option>Personal</option><option>Work</option><option>Study</option><option>Health</option><option>Shopping</option><option>Other</option></select></div>
+        <div class="date-field"><label for="editDueDate">Due date</label><input id="editDueDate" type="date"></div>
+      </div>
+      <div class="dialog-actions"><button class="cancel-button" type="button" id="cancelEdit">Cancel</button><button class="add-button" type="submit">Save changes</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
